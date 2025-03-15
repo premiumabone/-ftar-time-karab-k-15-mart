@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Karabük İftar Saati</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #2c3e50, #3498db);
+            color: #fff;
+            padding: 20px;
+        }
+
+        .container {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            padding: 2rem;
+            border-radius: 20px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            max-width: 500px;
+            width: 100%;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            font-weight: 600;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        .iftar-time {
+            font-size: 1.8rem;
+            margin: 1.5rem 0;
+            color: #ffd700;
+        }
+
+        #countdown {
+            font-size: 3rem;
+            font-weight: 600;
+            margin: 2rem 0;
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+        }
+
+        .countdown-item {
+            background: rgba(255, 255, 255, 0.15);
+            padding: 1rem;
+            border-radius: 10px;
+            min-width: 100px;
+            backdrop-filter: blur(5px);
+            transition: transform 0.3s ease;
+        }
+
+        .countdown-item:hover {
+            transform: translateY(-5px);
+        }
+
+        .countdown-label {
+            font-size: 1rem;
+            margin-top: 0.5rem;
+            display: block;
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        .completed {
+            font-size: 2rem;
+            color: #4CAF50;
+            animation: pulse 1.5s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        @media (max-width: 480px) {
+            #countdown {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .countdown-item {
+                min-width: auto;
+                padding: 1rem 0.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Karabük İftar Vakti</h1>
+        <p class="iftar-time">İftar Saati: <strong>19:03</strong></p>
+        
+        <div id="countdown">
+            <div class="countdown-item">
+                <span id="hours">00</span>
+                <span class="countdown-label">Saat</span>
+            </div>
+            <div class="countdown-item">
+                <span id="minutes">00</span>
+                <span class="countdown-label">Dakika</span>
+            </div>
+            <div class="countdown-item">
+                <span id="seconds">00</span>
+                <span class="countdown-label">Saniye</span>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const iftarTime = new Date();
+        iftarTime.setHours(19);
+        iftarTime.setMinutes(3);
+        iftarTime.setSeconds(0);
+
+        const hoursElement = document.getElementById('hours');
+        const minutesElement = document.getElementById('minutes');
+        const secondsElement = document.getElementById('seconds');
+        const countdownContainer = document.getElementById('countdown');
+
+        function updateCountdown() {
+            const now = new Date();
+            const timeDiff = iftarTime - now;
+
+            if(timeDiff > 0) {
+                const hours = Math.floor(timeDiff / (1000 * 60 * 60));
+                const minutes = Math.floor((timeDiff % (1000 * 60 * 60)) / (1000 * 60));
+                const seconds = Math.floor((timeDiff % (1000 * 60)) / 1000);
+
+                hoursElement.textContent = hours.toString().padStart(2, '0');
+                minutesElement.textContent = minutes.toString().padStart(2, '0');
+                secondsElement.textContent = seconds.toString().padStart(2, '0');
+            } else {
+                countdownContainer.innerHTML = `
+                    <div class="completed">
+                        🎉 İftar Vakti Geldi!
+                    </div>
+                `;
+            }
+        }
+
+        setInterval(updateCountdown, 1000);
+        updateCountdown();
+    </script>
+</body>
+</html>
